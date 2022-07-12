@@ -8,6 +8,8 @@ import project.calculator.repository.HistoryRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +36,8 @@ public class CalculatorServiceImpl implements CalculatorService {
                 break;
             case "/":
                 //0으로 나눌때 예외처리
-                result = first.divide(second);
+                result = first.divide(second, new MathContext(34, RoundingMode.DOWN));
+                //result = first.divide(second, MathContext.DECIMAL128);
                 break;
             default:
                 result = BigDecimal.ZERO;
