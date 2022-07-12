@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -21,4 +22,6 @@ public class HistoryEntity {
     private Operator operator;
     private BigDecimal operand1;
     private BigDecimal operand2;
+
+    private LocalDateTime localDateTime;
 }

@@ -22,7 +22,6 @@ public class CalculateController {
         ResponseDto response = new ResponseDto();
         response.setRequest(requestDto);
         response.setResult(calculatorService.calculate(requestDto));
-        //전체 수식 string 생성해서 보내줄까?
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 

@@ -7,6 +7,7 @@ import project.calculator.domain.RequestDto;
 import project.calculator.repository.HistoryRepository;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +46,7 @@ public class CalculatorServiceImpl implements CalculatorService {
         history.setOperand2(second);
         history.setOperator(request.getOperator());
         history.setResult(result);
+        history.setLocalDateTime(LocalDateTime.now());
         historyRepository.save(history);
         return result;
     }

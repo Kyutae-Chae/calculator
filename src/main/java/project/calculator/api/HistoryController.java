@@ -33,8 +33,15 @@ public class HistoryController {
     @GetMapping("/{historyId}")
     public ResponseEntity historyGet(@PathVariable("historyId") Long historyId) {
         HistoryEntity history = historyService.findHistory(historyId);
-        HistoryDto response = mapper.HistoryEntityToHistoryDto(history);
+//        HistoryDto response = mapper.HistoryEntityToHistoryDto(history);
         //mapper 매핑 확인필요
+        HistoryDto response = new HistoryDto();
+        response.setId(history.getId());
+        response.setOperand1(history.getOperand1());
+        response.setOperand2(history.getOperand2());
+        response.setOperator(history.getOperator());
+        response.setResult(history.getResult());
+        response.setLocalDateTime(history.getLocalDateTime());
         return new ResponseEntity<>(new ResponseHistoryDto<>(response), HttpStatus.OK);
     }
 

@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container">
+    <form role="form" action="/calculate" th:object="${formDto}"
+          method="post">
+        <div class="form-group">
+            <label th:for="operand1">첫번째</label>
+            <input type="text" th:field="*{operand1}" class="form-control" placeholder="이름을 입력하세요">
+        </div>
+        <div class="form-group">
+            <label th:for="operator">연산자</label>
+            <select th:field="*{operator}" class="form-control">
+                <option value="">연산자</option>
+                <option th:each=
+                                "type : ${T(project.calculator.domain.Operator).values()}"
+                        th:value="${type}"
+                        th:text="${tyupe}">option
+                </option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label th:for="operand2">두번째</label>
+            <input type="text" th:field="{operand2}" class="form-control"
+                   placeholder="도시를 입력하세요">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <br/>
+</div> <!-- /container -->
+</body>
+</html>
