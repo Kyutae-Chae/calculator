@@ -1,7 +1,6 @@
 package project.calculator.domain;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 public enum Operator {
     PLUS("+"),

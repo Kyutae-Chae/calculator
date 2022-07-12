@@ -9,12 +9,10 @@ import project.calculator.domain.HistoryEntity;
 import project.calculator.domain.ResponseDto;
 import project.calculator.domain.ResponseHistoryDto;
 import project.calculator.mapper.HistoryEntityMapper;
-import project.calculator.repository.HistoryRepository;
 import project.calculator.service.HistoryService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/history")

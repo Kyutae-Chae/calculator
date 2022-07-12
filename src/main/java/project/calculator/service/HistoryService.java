@@ -2,9 +2,7 @@ package project.calculator.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import project.calculator.domain.HistoryDto;
 import project.calculator.domain.HistoryEntity;
-import project.calculator.mapper.HistoryEntityMapper;
 import project.calculator.repository.HistoryRepository;
 
 import java.util.List;
