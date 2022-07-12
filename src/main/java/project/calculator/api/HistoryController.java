@@ -33,13 +33,12 @@ public class HistoryController {
     public ResponseEntity historyGet(@PathVariable("historyId") Long historyId) {
         HistoryEntity history = historyService.findHistory(historyId);
 
-        HistoryDto response = new HistoryDto();
-        response.setId(history.getId());
-        response.setOperand1(history.getOperand1());
-        response.setOperand2(history.getOperand2());
-        response.setOperator(history.getOperator());
-        response.setResult(history.getResult());
-        response.setLocalDateTime(history.getLocalDateTime());
+//        response.setId(history.getId());
+//        response.setOperand1(history.getOperand1());
+//        response.setOperand2(history.getOperand2());
+//        response.setOperator(history.getOperator());
+//        response.setResult(history.getResult());
+//        response.setLocalDateTime(history.getLocalDateTime());
 
         HistoryDto response = mapper.HistoryEntityToHistoryDto(history);
         return new ResponseEntity<>(new ResponseHistoryDto<>(response), HttpStatus.OK);
