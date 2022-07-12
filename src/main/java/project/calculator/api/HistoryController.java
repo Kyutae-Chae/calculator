@@ -24,17 +24,15 @@ public class HistoryController {
 
     @GetMapping
     public ResponseEntity getHistoryAll() {
-        List<ResponseDto> historyList = new ArrayList<>();
-        List<HistoryEntity> all = historyService.findHistoryAll();
-        //entity를 dto로 매핑필요
-        return new ResponseEntity<>(new ResponseHistoryDto<>(all), HttpStatus.OK);
+        List<HistoryEntity> historyAll = historyService.findHistoryAll();
+        List<HistoryDto> historyDtos = mapper.HistoryEntityListToHistoryDtoList(historyAll);
+        return new ResponseEntity<>(new ResponseHistoryDto<>(historyDtos), HttpStatus.OK);
     }
 
     @GetMapping("/{historyId}")
     public ResponseEntity historyGet(@PathVariable("historyId") Long historyId) {
         HistoryEntity history = historyService.findHistory(historyId);
         HistoryDto response = mapper.HistoryEntityToHistoryDto(history);
-        //mapper 매핑 확인필요
         return new ResponseEntity<>(new ResponseHistoryDto<>(response), HttpStatus.OK);
     }
 

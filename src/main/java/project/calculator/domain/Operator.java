@@ -6,7 +6,7 @@ public enum Operator {
     PLUS("+"),
     MINUS("-"),
     MULTI("*"),
-    DEVISION("/");
+    DIVISION("/");
 
     @Getter
     private String type;
