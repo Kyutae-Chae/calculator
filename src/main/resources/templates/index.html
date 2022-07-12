@@ -2,31 +2,60 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <div class="container">
-    <form role="form" action="/calculate" th:object="${formDto}"
-          method="post">
+    <form role="form" action="/calculate" method="post" enctype='application/json'>
         <div class="form-group">
             <label th:for="operand1">첫번째</label>
-            <input type="text" th:field="*{operand1}" class="form-control" placeholder="이름을 입력하세요">
+            <input type="text" th:field="${formDto.operand1}" class="form-control" placeholder="숫자를 입력하세요">
         </div>
         <div class="form-group">
             <label th:for="operator">연산자</label>
-            <select th:field="*{operator}" class="form-control">
+            <select th:field="${formDto.operator}" class="form-control">
                 <option value="">연산자</option>
-                <option th:each=
-                                "type : ${T(project.calculator.domain.Operator).values()}"
+                <option th:each="type : ${T(project.calculator.domain.Operator).values()}"
                         th:value="${type}"
-                        th:text="${tyupe}">option
+                        th:text="${type}">option
                 </option>
             </select>
         </div>
         <div class="form-group">
             <label th:for="operand2">두번째</label>
-            <input type="text" th:field="{operand2}" class="form-control"
-                   placeholder="도시를 입력하세요">
+            <input type="text" th:field="${formDto.operand2}" class="form-control" placeholder="숫자를 입력하세요">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
     <br/>
+    <div>
+        <label>결과 : </label>
+        [[${formDto.result}]]
+    </div>
+    <div>
+        <label>history</label>
+        <div>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>수식</th>
+                    <th>결과</th>
+                    <th>시각</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="h : ${history}">
+                    <td th:text="${h.id}"></td>
+                    <td>[[${h.operand1}]] [[${h.operator}]] [[${h.operand2}]]</td>
+                    <td th:text="${h.result}"></td>
+                    <td th:text="${h.localDateTime}"></td>
+                    <td>
+                        <a href="#" th:href="@{/items/{id}/edit (id=${h.id})}"
+                           class="btn btn-primary" role="button">삭제</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div> <!-- /container -->
 </body>
 </html>

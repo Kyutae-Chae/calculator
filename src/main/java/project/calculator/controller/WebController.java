@@ -1,37 +1,39 @@
 package project.calculator.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import project.calculator.domain.FormDto;
+import project.calculator.domain.HistoryDto;
 import project.calculator.domain.RequestDto;
-import project.calculator.domain.ResponseDto;
+import project.calculator.mapper.HistoryEntityMapper;
 import project.calculator.service.CalculatorService;
+import project.calculator.service.HistoryService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/")
 @RequiredArgsConstructor
 public class WebController {
     private final CalculatorService calculatorService;
+    private final HistoryService historyService;
+    private final HistoryEntityMapper mapper;
 
-    @GetMapping("/calculate")
-    public String calculate(@RequestBody @Valid RequestDto requestDto, Model model) {
+    @GetMapping("/")
+    public String calculate(Model model) {
         FormDto formDto = new FormDto();
         model.addAttribute("formDto", formDto);
         return "index";
     }
 
     @PostMapping("/calculate")
-    public String getResult(@RequestBody @Valid RequestDto requestDto,
+    public String getResult(@Valid RequestDto requestDto,
                             BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "index";
@@ -43,6 +45,8 @@ public class WebController {
         formDto.setOperand2(requestDto.getOperand2());
         formDto.setResult(calculatorService.calculate(requestDto));
         model.addAttribute("formDto", formDto);
-        return "redirect:/";
+        List<HistoryDto> historyDtos = mapper.HistoryEntityListToHistoryDtoList(historyService.findHistoryAll());
+        model.addAttribute("history", historyDtos);
+        return "index";
     }
 }
