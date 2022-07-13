@@ -4,22 +4,22 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import project.calculator.domain.HistoryDto;
-import project.calculator.domain.HistoryEntity;
-import project.calculator.domain.ResponseDto;
-import project.calculator.domain.ResponseHistoryDto;
+import project.calculator.domain.*;
 import project.calculator.mapper.HistoryEntityMapper;
 import project.calculator.service.HistoryService;
 
-import java.util.ArrayList;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/history")
 @RequiredArgsConstructor
+@Validated
 public class HistoryController {
 
     private final HistoryService historyService;
@@ -30,10 +30,13 @@ public class HistoryController {
             @ApiResponse(code = 200, message = "결과 정상 리턴")
     })
     @GetMapping
-    public ResponseEntity getHistoryAll() {
-        List<HistoryEntity> historyAll = historyService.findHistoryAll();
+    public ResponseEntity getHistoryAll(@Positive @RequestParam(required = false, defaultValue = "1") int page,
+                                        @Positive @RequestParam(required = false, defaultValue = "5") int size) {
+        Page<HistoryEntity> historyAll = historyService.findHistoryPage(page - 1 , size);
         List<HistoryDto> historyDtos = mapper.HistoryEntityListToHistoryDtoList(historyAll);
-        return new ResponseEntity<>(new ResponseHistoryDto<>(historyDtos), HttpStatus.OK);
+        PageInfoDto pageInfoDto = new PageInfoDto(page, size, historyAll.getTotalElements(), historyAll.getTotalPages());
+        PageHistoryDto response =new PageHistoryDto(historyDtos, pageInfoDto);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @ApiOperation(value = "계산 history 조회", notes = "저장된 계산 history 1건 리턴")

@@ -1,6 +1,9 @@
 package project.calculator.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import project.calculator.domain.HistoryEntity;
 import project.calculator.exception.ExceptionCode;
@@ -25,6 +28,10 @@ public class HistoryService {
 
     public List<HistoryEntity> findHistoryAll() {
         return historyRepository.findAll();
+    }
+    public Page<HistoryEntity> findHistoryPage(int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"));
+        return historyRepository.findAll(pageRequest);
     }
 
     //history service 삭제 구현필요
