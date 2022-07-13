@@ -36,6 +36,7 @@ public class WebController {
     public String getResult(@Valid RequestDto requestDto,
                             BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("formDto", new FormDto());
             return "index";
         }
 
