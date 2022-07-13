@@ -41,5 +41,5 @@
 - _**무슨말인지 이해안됨, 과거 계산내용?**_
 
 ### 추가선택
-- Exception 처리
-- 로깅처리
+- Exception 처리 (RestControllerAdvice 추가 해봄)
+- 로깅처리 : 로그서비스로 level, 로그파일, 로그 출력 패턴 적용(OK)
