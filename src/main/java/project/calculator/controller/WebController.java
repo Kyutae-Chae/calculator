@@ -4,9 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import project.calculator.domain.FormDto;
 import project.calculator.domain.HistoryDto;
 import project.calculator.domain.RequestDto;
@@ -29,6 +27,8 @@ public class WebController {
     public String calculate(Model model) {
         FormDto formDto = new FormDto();
         model.addAttribute("formDto", formDto);
+        List<HistoryDto> historyDtos = mapper.HistoryEntityListToHistoryDtoList(historyService.findHistoryAll());
+        model.addAttribute("history", historyDtos);
         return "index";
     }
 
@@ -48,5 +48,16 @@ public class WebController {
         List<HistoryDto> historyDtos = mapper.HistoryEntityListToHistoryDtoList(historyService.findHistoryAll());
         model.addAttribute("history", historyDtos);
         return "index";
+    }
+
+    @GetMapping("/history/{historyId}/delete")
+    public String deleteHistory(@PathVariable("historyId") Long historyId, Model model) {
+
+        //history service 삭제 구현필요
+
+        List<HistoryDto> historyDtos = mapper.HistoryEntityListToHistoryDtoList(historyService.findHistoryAll());
+        model.addAttribute("history", historyDtos);
+        model.addAttribute("formDto", new FormDto());
+        return "redirect:/";
     }
 }

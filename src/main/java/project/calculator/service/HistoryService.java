@@ -27,4 +27,6 @@ public class HistoryService {
         return historyRepository.findAll();
     }
 
+    //history service 삭제 구현필요
+
 }
