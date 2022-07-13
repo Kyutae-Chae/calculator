@@ -22,7 +22,8 @@ public class CalculateController {
 
     @ApiOperation(value = "계산하기", notes = "RequestDto를 JSON으로 전달받아 결과값을 리턴")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "결과 정상 리턴")
+            @ApiResponse(code = 201, message = "결과 정상 리턴"),
+            @ApiResponse(code = 400, message = "잘못된 request")
     })
     @PostMapping
     public ResponseEntity calculate(@RequestBody @Valid RequestDto requestDto) {

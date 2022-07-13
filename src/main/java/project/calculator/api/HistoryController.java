@@ -1,5 +1,8 @@
 package project.calculator.api;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +25,10 @@ public class HistoryController {
     private final HistoryService historyService;
     private final HistoryEntityMapper mapper;
 
+    @ApiOperation(value = "계산 history 전체 조회", notes = "저장된 계산 history 전체 리턴")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "결과 정상 리턴")
+    })
     @GetMapping
     public ResponseEntity getHistoryAll() {
         List<HistoryEntity> historyAll = historyService.findHistoryAll();
@@ -29,6 +36,11 @@ public class HistoryController {
         return new ResponseEntity<>(new ResponseHistoryDto<>(historyDtos), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "계산 history 조회", notes = "저장된 계산 history 1건 리턴")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "결과 정상 리턴"),
+            @ApiResponse(code = 500, message = "해당 ID의 history를 찾을 수 없음")
+    })
     @GetMapping("/{historyId}")
     public ResponseEntity historyGet(@PathVariable("historyId") Long historyId) {
         HistoryEntity history = historyService.findHistory(historyId);
@@ -44,6 +56,11 @@ public class HistoryController {
         return new ResponseEntity<>(new ResponseHistoryDto<>(response), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "계산 history 삭제", notes = "저장된 계산 history 1건 삭제")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "결과 정상 리턴"),
+            @ApiResponse(code = 500, message = "해당 ID의 history를 찾을 수 없음")
+    })
     @DeleteMapping("/{historyId}")
     public ResponseEntity historyDelete(@PathVariable("historyId") Long historyId) {
         HistoryEntity history = historyService.findHistory(historyId);
