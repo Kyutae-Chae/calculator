@@ -1,5 +1,8 @@
 package project.calculator.api;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +20,10 @@ public class CalculateController {
 
     private final CalculatorService calculatorService;
 
+    @ApiOperation(value = "계산하기", notes = "RequestDto를 JSON으로 전달받아 결과값을 리턴")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "결과 정상 리턴")
+    })
     @PostMapping
     public ResponseEntity calculate(@RequestBody @Valid RequestDto requestDto) {
         ResponseDto response = new ResponseDto();
