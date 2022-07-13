@@ -19,3 +19,12 @@ server:
     key-store: classpath:localhost.p12
     key-store-type: PKCS12
     key-store-password: changeit
+
+logging:
+  file:
+    max-history: 999999
+    max-size: 5MB
+    name: ./logs/calc_service.log
+  pattern:
+    console: "[%-5level] [%d{yyyy-MM-dd HH:mm:ss}][%thread] [%F - %M] [%logger{0}:%line] - %msg%n"
+    file: "[%-5level] [%d{yyyy-MM-dd HH:mm:ss}][%thread] [%F - %M] [%logger{0}:%line] - %msg%n"

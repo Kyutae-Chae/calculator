@@ -18,6 +18,8 @@ import java.util.Optional;
 public class HistoryService {
 
     private final HistoryRepository historyRepository;
+    private final LogService logService;
+
     public HistoryEntity findHistory(Long historyId) {
         Optional<HistoryEntity> optionalHistory = historyRepository.findById(historyId);
         HistoryEntity findHistory = optionalHistory.orElseThrow(()->
@@ -41,6 +43,7 @@ public class HistoryService {
                 new HistoryException(ExceptionCode.HISTORY_NOT_FOUND)
         );
         historyRepository.delete(findHistory);
+        logService.warn("delete history ID : " + historyId);
         return findHistory;
     }
 

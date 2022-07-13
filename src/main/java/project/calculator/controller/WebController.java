@@ -11,9 +11,11 @@ import project.calculator.domain.RequestDto;
 import project.calculator.mapper.HistoryEntityMapper;
 import project.calculator.service.CalculatorService;
 import project.calculator.service.HistoryService;
+import project.calculator.service.LogService;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/")
@@ -22,6 +24,8 @@ public class WebController {
     private final CalculatorService calculatorService;
     private final HistoryService historyService;
     private final HistoryEntityMapper mapper;
+
+    private final LogService logService;
 
     @GetMapping("/")
     public String calculate(Model model) {
@@ -56,6 +60,7 @@ public class WebController {
     @DeleteMapping("/history/{historyId}/delete")
     public String deleteHistory(@PathVariable("historyId") Long historyId, Model model) {
         historyService.deleteHistory(historyId);
+        logService.warn("delete history ID : " + historyId);
 
         List<HistoryDto> historyDtos = mapper.HistoryEntityListToHistoryDtoList(historyService.findHistoryAll());
         model.addAttribute("history", historyDtos);
