@@ -14,4 +14,8 @@ public class HistoryDto {
     private BigDecimal operand1;
     private BigDecimal operand2;
     private LocalDateTime localDateTime;
+
+    public String getOperatorChar() {
+        return this.operator.getType();
+    }
 }
