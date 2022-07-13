@@ -13,14 +13,7 @@
 - 히스토리 저장 : H2 in-memory 사용 (OK)
 
 ### (선택) https
-- 키생성 방법
-```
-keytool -genkey -alias keystore -keyalg  RSA -keystore keystore.pkcs12 -sto
-retype pkcs12
-keytool -export -alias keystore -keystore keystore.pkcs12 -rfc -file certfi
-le.cer
-
-```
+- 블로그 키생성/적용 관련 내용 참조함 (OK)
 ### (선택) 로그인
 - 안해봤는데 해봐야할거 같음
 ### (선택) 배포
