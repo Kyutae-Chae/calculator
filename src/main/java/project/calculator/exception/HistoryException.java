@@ -1,7 +1,10 @@
 package project.calculator.exception;
 
 public class HistoryException extends RuntimeException {
-    public HistoryException(String message) {
-        super(message);
+    private ExceptionCode exceptionCode;
+
+    public HistoryException(ExceptionCode exceptionCode) {
+        super(exceptionCode.getMessage());
+        this.exceptionCode = exceptionCode;
     }
 }

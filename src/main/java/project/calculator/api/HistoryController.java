@@ -44,29 +44,18 @@ public class HistoryController {
     @GetMapping("/{historyId}")
     public ResponseEntity historyGet(@PathVariable("historyId") Long historyId) {
         HistoryEntity history = historyService.findHistory(historyId);
-
-//        response.setId(history.getId());
-//        response.setOperand1(history.getOperand1());
-//        response.setOperand2(history.getOperand2());
-//        response.setOperator(history.getOperator());
-//        response.setResult(history.getResult());
-//        response.setLocalDateTime(history.getLocalDateTime());
-
         HistoryDto response = mapper.HistoryEntityToHistoryDto(history);
         return new ResponseEntity<>(new ResponseHistoryDto<>(response), HttpStatus.OK);
     }
 
     @ApiOperation(value = "계산 history 삭제", notes = "저장된 계산 history 1건 삭제")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "결과 정상 리턴"),
+            @ApiResponse(code = 200, message = "정상삭제후 삭제한 history 반환"),
             @ApiResponse(code = 500, message = "해당 ID의 history를 찾을 수 없음")
     })
     @DeleteMapping("/{historyId}")
     public ResponseEntity historyDelete(@PathVariable("historyId") Long historyId) {
-        HistoryEntity history = historyService.findHistory(historyId);
-
-        //삭제 기능 구현필요
-        
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        HistoryEntity historyEntity = historyService.deleteHistory(historyId);
+        return new ResponseEntity<>(new ResponseHistoryDto<>(historyEntity), HttpStatus.OK);
     }
 }
