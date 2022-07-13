@@ -48,8 +48,8 @@
                     <td th:text="${h.result}"></td>
                     <td th:text="${h.localDateTime}"></td>
                     <td>
-                        <a href="#" th:href="@{/history/{id}/delete (id=${h.id})}"
-                           class="btn btn-primary" role="button">삭제</a>
+                        <a href="#" th:href="'javascript:cancel('+${h.id}+')'"
+                           class="btn btn-danger" role="button">삭제</a>
                     </td>
                 </tr>
                 </tbody>
@@ -58,4 +58,19 @@
     </div>
 </div> <!-- /container -->
 </body>
+<script>
+function cancel(id) {
+    var input = document.createElement("input");
+    input.setAttribute("name", "_method");
+    input.setAttribute("value", "DELETE");
+
+    var form = document.createElement("form");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", "/history/" + id + "/delete");
+
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+}
+    </script>
 </html>

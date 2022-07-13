@@ -37,6 +37,8 @@ public class WebController {
                             BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("formDto", new FormDto());
+            List<HistoryDto> historyDtos = mapper.HistoryEntityListToHistoryDtoList(historyService.findHistoryAll());
+            model.addAttribute("history", historyDtos);
             return "index";
         }
 
@@ -51,10 +53,9 @@ public class WebController {
         return "index";
     }
 
-    @GetMapping("/history/{historyId}/delete")
+    @DeleteMapping("/history/{historyId}/delete")
     public String deleteHistory(@PathVariable("historyId") Long historyId, Model model) {
-
-        //history service 삭제 구현필요
+        historyService.deleteHistory(historyId);
 
         List<HistoryDto> historyDtos = mapper.HistoryEntityListToHistoryDtoList(historyService.findHistoryAll());
         model.addAttribute("history", historyDtos);
