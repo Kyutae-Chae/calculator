@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import project.calculator.domain.HistoryEntity;
 import project.calculator.exception.ExceptionCode;
 import project.calculator.exception.HistoryException;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class HistoryService {
 
     private final HistoryRepository historyRepository;
@@ -36,7 +38,7 @@ public class HistoryService {
         return historyRepository.findAll(pageRequest);
     }
 
-    //history service 삭제 구현필요
+    @Transactional(readOnly = false)
     public HistoryEntity deleteHistory(Long historyId) {
         Optional<HistoryEntity> optionalHistory = historyRepository.findById(historyId);
         HistoryEntity findHistory = optionalHistory.orElseThrow(()->

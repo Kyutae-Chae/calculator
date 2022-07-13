@@ -2,6 +2,7 @@ package project.calculator.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import project.calculator.domain.HistoryEntity;
 import project.calculator.domain.RequestDto;
 import project.calculator.repository.HistoryRepository;
@@ -18,6 +19,7 @@ public class CalculatorServiceImpl implements CalculatorService {
     private final HistoryRepository historyRepository;
 
     @Override
+    @Transactional
     public BigDecimal calculate(RequestDto request) {
 
         BigDecimal result = BigDecimal.ZERO;
