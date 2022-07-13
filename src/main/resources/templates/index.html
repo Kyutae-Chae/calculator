@@ -13,7 +13,7 @@
                 <option value="">연산자</option>
                 <option th:each="type : ${T(project.calculator.domain.Operator).values()}"
                         th:value="${type}"
-                        th:text="${type}">option
+                        th:text="${type.getType()}">option
                 </option>
             </select>
         </div>
