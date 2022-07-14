@@ -28,6 +28,12 @@ public class WebController {
     private final LogService logService;
 
     @GetMapping("/")
+    public String home() {
+        return "redirect:/calculate";
+    }
+
+
+    @GetMapping("/calculate")
     public String calculate(Model model) {
         FormDto formDto = new FormDto();
         model.addAttribute("formDto", formDto);
@@ -65,6 +71,6 @@ public class WebController {
         List<HistoryDto> historyDtos = mapper.HistoryEntityListToHistoryDtoList(historyService.findHistoryAll());
         model.addAttribute("history", historyDtos);
         model.addAttribute("formDto", new FormDto());
-        return "redirect:/";
+        return "redirect:/calculate";
     }
 }
