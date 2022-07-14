@@ -1,7 +1,43 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
 <body>
+<div class="container" style="max-width: 600px">
+    <div class="py-1 text-center">
+        <h4 th:if="${member?.name != null}" class="mb-2" th:text="|로그인: ${member?.name}|">로그인 사용자 이름</h4>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <button class="w-100 btn btn-secondary btn-lg" type="button"
+                    th:onclick="|location.href='@{/members/add}'|">
+                회원 가입
+            </button>
+        </div>
+        <div class="col">
+            <button th:if="${member?.name == null}" class="w-100 btn btn-dark btn-lg"
+                    onclick="location.href='items.html'"
+                    th:onclick="|location.href='@{/login}'|" type="button">
+                로그인
+            </button>
+
+            <button th:if="${member?.name != null}" class="w-100 btn btn-dark btn-lg"
+                    onclick="location.href='items.html'"
+                    th:onclick="|location.href='@{/logout}'|" type="button">
+                로그아웃
+            </button>
+        </div>
+    </div>
+
+    <hr class="my-4">
+
+</div> <!-- /container -->
 <div class="container">
+    <h4 th:if="${member?.name != null}" class="mb-2">유료계산기입니다.</h4>
     <form role="form" action="/calculate" method="post" enctype='application/json'>
         <div class="form-group">
             <label th:for="operand1">첫번째</label>

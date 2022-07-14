@@ -13,13 +13,13 @@ import project.calculator.service.LogService;
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class GlobalExceptionAdvice {
-    private final LogService logService;
+    private final LogService log;
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleException(ArithmeticException e) {
         final ErrorResponse response = ErrorResponse.of(e);
-        logService.error(e.getMessage());
+        log.error(e.getMessage());
         return response;
     }
 
@@ -27,7 +27,7 @@ public class GlobalExceptionAdvice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorResponse handleException(HistoryException e) {
         final ErrorResponse response = ErrorResponse.of(e);
-        logService.error(e.getMessage());
+        log.error(e.getMessage());
         return response;
     }
 
