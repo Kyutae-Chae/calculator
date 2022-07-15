@@ -1,10 +1,12 @@
 # 계산기 프로젝트
 - ~~로컬(윈도우)에 mysql 서버 구동 : localhost:3306~~
 - mysql 실행 : docker run --name db-mysql -p 3306:3306 -p 33060:33060 -e MYSQL_ROOT_PASSWORD="qordpsem!" -e MYSQL_DATABASE=calculator mysql
-- 
+  - -e 옵션으로 추가한설정들을 Dockerfile에서 설정한 새로운 이미지 도커허브에 추가. "ktchae/mysql"
 - app 빌드 && 도커 이미지 빌드 : ./gradlew clean build && docker build -t ktchae/calc:0.0.6 .
 - 도커 컨테이너 실행 : app01/port 8888, app02/port 8889
-  **url: jdbc:mysql://172.17.0.2:3306/**  이부분 컨테이너 이름으로 변경필요함
+  **url: jdbc:mysql://172.17.0.2:3306/**  이부분 컨테이너 이름으로 변경필요함 (--link 옵션으로 컨테이너 이름으로 접근됨..)
+  - docker run --name app01 -p 8888:8080 --link db-mysql:db-mysql-link ktchae/test 로 실행시 아래와 같이 hosts 파일 생성된다!!
+  - 172.17.0.2      db-mysql-link f9c23c9ef1c0 db-mysql 
 - (로컬) nginx : 8888/8889 로드밸런싱 -> 도커에 올려봐야할듯
 
 - ~~app01 실행 : docker run --name app01 -p 8888:8080 --network=host  ktchae/calc:0.0.5~~

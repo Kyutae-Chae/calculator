@@ -1,0 +1,4 @@
+FROM mysql:8.0.29
+
+ENV MYSQL_ROOT_PASSWORD=qordpsem!
+ENV MYSQL_DATABASE=calculator
