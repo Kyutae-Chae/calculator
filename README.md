@@ -2,9 +2,9 @@
 - ~~로컬(윈도우)에 mysql 서버 구동 : localhost:3306~~
 - mysql 실행 : docker run --name db-mysql -p 3306:3306 -p 33060:33060 -e MYSQL_ROOT_PASSWORD="qordpsem!" -e MYSQL_DATABASE=calculator mysql
 - 
-- app 빌드 && 도커 이미지 빌드 : ./gradlew clean build && docker build -t ktchae/calc:0.0.5 .
+- app 빌드 && 도커 이미지 빌드 : ./gradlew clean build && docker build -t ktchae/calc:0.0.6 .
 - 도커 컨테이너 실행 : app01/port 8888, app02/port 8889
-  **url: jdbc:mysql://172.17.0.2:3306/**  이부분 컨테이너 이름으로 변경필요
+  **url: jdbc:mysql://172.17.0.2:3306/**  이부분 컨테이너 이름으로 변경필요함
 - (로컬) nginx : 8888/8889 로드밸런싱 -> 도커에 올려봐야할듯
 
 - ~~app01 실행 : docker run --name app01 -p 8888:8080 --network=host  ktchae/calc:0.0.5~~
@@ -24,12 +24,12 @@
 - 로그인기능 추가할 경우 로그인한 유저의 히스토리만 
 ### DB
 - 히스토리 저장 : H2 in-memory 사용 (OK)
-- mysql 로 변경(OK) -> 도커로 각각 띄울경우 연결안되어 보류
+- mysql 로 변경(OK) -> 도커로 각각 띄울경우 연결안되어 보류 -> mysql도 도커이미지로 띄우고 각 WAS에서 접근하도록 수정 (OK)
 
 ### (선택) https
 - 블로그 키생성/적용 관련 내용 참조함 (OK)
 ### (선택) 로그인
-- 쿠키 : 가장 간단하게 먼저.. 로그인 체크 중복인것은 인터셉터로 해야함
+- 쿠키 : 가장 간단하게 먼저.. 로그인 체크 중복인것은 인터셉터로 해야함 (OK)
 - 세션
 - JWT
 - 
