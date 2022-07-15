@@ -1,6 +1,6 @@
 # 계산기 프로젝트
 - ~~로컬(윈도우)에 mysql 서버 구동 : localhost:3306~~
-- mysql 실행 : docker run --name db-mysql -p 3306:3306 -p 33060:33060 -e MYSQL_ROOT_PASSWORD="qordpsem!" -e MYSQL_DATABASE=calculator --network=host mysql
+- mysql 실행 : docker run --name db-mysql -p 3306:3306 -p 33060:33060 -e MYSQL_ROOT_PASSWORD="qordpsem!" -e MYSQL_DATABASE=calculator mysql
 - 
 - app 빌드 && 도커 이미지 빌드 : ./gradlew clean build && docker build -t ktchae/calc:0.0.5 .
 - 도커 컨테이너 실행 : app01/port 8888, app02/port 8889
