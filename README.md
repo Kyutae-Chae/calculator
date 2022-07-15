@@ -1,9 +1,22 @@
 # 계산기 프로젝트
+- ~~로컬(윈도우)에 mysql 서버 구동 : localhost:3306~~
+- mysql 실행 : docker run --name db-mysql -p 3306:3306 -p 33060:33060 -e MYSQL_ROOT_PASSWORD="qordpsem!" -e MYSQL_DATABASE=calculator --network=host mysql
+- 
+- app 빌드 && 도커 이미지 빌드 : ./gradlew clean build && docker build -t ktchae/calc:0.0.5 .
+- 도커 컨테이너 실행 : app01/port 8888, app02/port 8889
+  **url: jdbc:mysql://172.17.0.2:3306/**  이부분 컨테이너 이름으로 변경필요
+- (로컬) nginx : 8888/8889 로드밸런싱 -> 도커에 올려봐야할듯
+
+- ~~app01 실행 : docker run --name app01 -p 8888:8080 --network=host  ktchae/calc:0.0.5~~
+- ~~app02 실행 : docker run --name app02 -p 8889:8080 --network=host  ktchae/calc:0.0.5~~
+
+
+
 
 ### (선택) API 명세서
 - **Swagger** / RestDocs 같은 툴사용 or 직접 작성
 - Swagger 적용 (OK)
-- API 별로 Swagger 관련 내용 작성 필요
+- https://localhost:8080/swagger-ui/
 
 ## [기능]
 ### 히스토리
@@ -11,7 +24,7 @@
 - 로그인기능 추가할 경우 로그인한 유저의 히스토리만 
 ### DB
 - 히스토리 저장 : H2 in-memory 사용 (OK)
-- mysql 로 변경(OK)
+- mysql 로 변경(OK) -> 도커로 각각 띄울경우 연결안되어 보류
 
 ### (선택) https
 - 블로그 키생성/적용 관련 내용 참조함 (OK)
@@ -19,15 +32,20 @@
 - 쿠키 : 가장 간단하게 먼저.. 로그인 체크 중복인것은 인터셉터로 해야함
 - 세션
 - JWT
+- 
 ### (선택) 배포
 #### nginx (OK)
 - 리버스 프록시 역할, 80포트 요청을 8080으로 보내준다. 로그밸런싱, 무중단 서비스등..
-- app 도커 빌드 : docker build -t ktchae/calc:0.0.2 .
+- **app 도커 빌드** : ./gradlew clean build && docker build -t ktchae/calc:0.0.4 .
 - nginx 도커 빌드 : docker build -t ktchae/nginx:0.0.1 .
 - app 도커 이미지로 2개의 서버를 띄우고, 8888/8889 포트를 8080으로 받음
 - 로컬에서 nginx 를 띄워서 80포트 -> 8888/8889 각 app 컨테이너로 로그밸런싱 동작함
-- nginx 도커 이미지로 서버 띄우고는 8888/8889로 연결이 안됨..
+- (?) nginx 도커 이미지로 서버 띄우고는 8888/8889로 연결이 안됨.. (네트웍 설정 관련 문제같음)
+ 
+- DB를 mysql로 도커로 하나 띄우고 app 에서 해당 dB 공통으로 사용하도록 변경..
+  
 
+- (?) 컨테이너간 network 설정쪽 학습이 필요함 (app -> mysql 연결안됨...)
 
 ## [동작]
 ### (기본) 사칙연산 적용
