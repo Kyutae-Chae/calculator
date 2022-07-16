@@ -12,6 +12,8 @@
 - ~~app01 실행 : docker run --name app01 -p 8888:8080 --network=host  ktchae/calc:0.0.5~~
 - ~~app02 실행 : docker run --name app02 -p 8889:8080 --network=host  ktchae/calc:0.0.5~~
 
+- 여러개 컨테이너는 도커컴포즈로 구성함 (docker-compose.yml)
+- MySQL + APP * 2 로 구성함, 앞단에 NGINX 추가 구성필요
 
 
 
