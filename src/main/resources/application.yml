@@ -19,7 +19,11 @@ spring:
       matching-strategy: ant_path_matcher
 
 
+
 server:
+  servlet:
+    session:
+      tracking-modes: cookie
   ssl:
     key-store: classpath:localhost.p12
     key-store-type: PKCS12
