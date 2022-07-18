@@ -10,32 +10,121 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=qordpsem!
       - MYSQL_DATABASE=calculator
+    networks:
+      - test_network
   app01:
     container_name: app01
     depends_on:
       - db-mysql
-    links:
-      - db-mysql
+#    links: #Links are a legacy option. We recommend using networks instead.
+#      - db-mysql
     image: "ktchae/calc:0.0.8"
     ports:
       - "8888:8080"
+    networks:
+      - test_network
+    environment:
+      - VIRTUAL_HOST=app01
+      - VIRTUAL_PORT=8888
+      - REMOTE_PORT=8080
   app02:
     container_name: app02
     depends_on:
       - db-mysql
-    links:
-      - db-mysql
+#    links: #Links are a legacy option. We recommend using networks instead.
+#      - db-mysql
     image: "ktchae/calc:0.0.8"
     ports:
       - "8889:8080"
-#  nginx-test:
-#    container_name: nginx-test
-#    image: "ktchae/nginx:0.0.3"
-#    ports:
-#      - "80:80"
-#    depends_on:
-#      - app01
-#      - app02
+    networks:
+      - test_network
+    environment:
+      - VIRTUAL_HOST=app01
+      - VIRTUAL_PORT=8888
+      - REMOTE_PORT=8080
+  nginx:
+    container_name: nginx
+    depends_on:
+      - app01
+      - app02
 #    links:
 #      - app01
 #      - app02
+    image: "ktchae/nginx:0.0.5"
+    ports:
+      - "80:80"
+    networks:
+      - test_network
+
+networks:
+  test_network:
+
+
+# nginx 에러 로그...
+#/docker-entrypoint.sh: Configuration complete; ready for start up
+#2022/07/18 12:06:02 [error] 31#31: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 172.22.0.1, server: localhost, request: "GET / HTTP/1.1", upstream: "https://172.22.0.3:8888/", host: "localhost"
+#2022/07/18 12:06:02 [warn] 31#31: *1 upstream server temporarily disabled while connecting to upstream, client: 172.22.0.1, server: localhost, request: "GET / HTTP/1.1", upstream: "https://172.22.0.3:8888/", host: "localhost"
+#172.22.0.1 - - [18/Jul/2022:12:06:05 +0000] "GET / HTTP/1.1" 502 559 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36" "-"
+#2022/07/18 12:06:05 [error] 31#31: *1 connect() failed (113: No route to host) while connecting to upstream, client: 172.22.0.1, server: localhost, request: "GET / HTTP/1.1", upstream: "https://172.22.0.4:8889/", host: "localhost"
+#2022/07/18 12:06:05 [warn] 31#31: *1 upstream server temporarily disabled while connecting to upstream, client: 172.22.0.1, server: localhost, request: "GET / HTTP/1.1", upstream: "https://172.22.0.4:8889/", host: "localhost"
+#2022/07/18 12:06:05 [error] 31#31: *1 no live upstreams while connecting to upstream, client: 172.22.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", upstream: "https://myserver/favicon.ico", host: "localhost", referrer: "http://localhost/"
+#172.22.0.1 - - [18/Jul/2022:12:06:05 +0000] "GET /favicon.ico HTTP/1.1" 502 559 "http://localhost/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36" "-"
+
+
+#PS C:\Users\yesic\IdeaProjects\calculator\src\main\resources\nginx> docker network inspect calculator_test_network
+#[
+#    {
+#        "Name": "calculator_test_network",
+#        "Id": "bc72b86f26b0cb3b36fcb7566f48382eb104efdedd4140fe7d70f2691e70f8de",
+#        "Created": "2022-07-18T12:04:47.8986556Z",
+#        "Scope": "local",
+#        "Driver": "bridge",
+#        "EnableIPv6": false,
+#        "IPAM": {
+#            "Driver": "default",
+#            "Options": null,
+#            "Config": [
+#                {
+#                    "Subnet": "172.22.0.0/16",
+#                    "Gateway": "172.22.0.1"
+#                }
+#            ]
+#        },
+#        "Internal": false,
+#        "Attachable": false,
+#        "Ingress": false,
+#        "ConfigFrom": {
+#            "Network": ""
+#        },
+#        "ConfigOnly": false,
+#        "Containers": {
+#            "2e7be86a7a57deebeb6ecb94bbf466bb41538c51968c078852a98fbbc3c43d57": {
+#                "Name": "app01",
+#                "EndpointID": "4d83f68f7d97c67bccc9186a9f299903ceb05e3129a7722a5d49e1ed9268bb5d",
+#                "MacAddress": "02:42:ac:16:00:03",
+#                "IPv4Address": "172.22.0.3/16",
+#                "IPv6Address": ""
+#            },
+#            "852fbb7a9ccafa46917af08d9a172bd529338d2e7f6387ac3f314d75c7dcc94b": {
+#                "Name": "nginx",
+#                "EndpointID": "471013bf3b6439bd077ffb71a896e014a1dea8907d5cbadc620a8e57d6b8d395",
+#                "MacAddress": "02:42:ac:16:00:05",
+#                "IPv4Address": "172.22.0.5/16",
+#                "IPv6Address": ""
+#            },
+#            "bde0b76f7b131966c21c34ec1b149a86b287b54185ec9f74f8b91a479659d17c": {
+#                "Name": "db-mysql",
+#                "EndpointID": "f76619d4eecd8cb243429628afb172348a3262ecbb8805989f54a92317a77342",
+#                "MacAddress": "02:42:ac:16:00:02",
+#                "IPv4Address": "172.22.0.2/16",
+#                "IPv6Address": ""
+#            }
+#        },
+#        "Options": {},
+#        "Labels": {
+#            "com.docker.compose.network": "test_network",
+#            "com.docker.compose.project": "calculator",
+#            "com.docker.compose.version": "2.6.1"
+#        }
+#    }
+#]
