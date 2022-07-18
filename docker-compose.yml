@@ -28,3 +28,14 @@ services:
     image: "ktchae/calc:0.0.7"
     ports:
       - "8889:8080"
+  nginx-test:
+    container_name: nginx-test
+    image: "ktchae/nginx:0.0.3"
+    ports:
+      - "80:80"
+    depends_on:
+      - app01
+      - app02
+    links:
+      - app01
+      - app02
