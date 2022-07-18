@@ -1,13 +1,14 @@
 # 계산기 프로젝트
+- 현상태 : mysql + was 는 도커컴포즈로 구동(명령어:docker-compose up), nginx 별도 구동
 - ~~로컬(윈도우)에 mysql 서버 구동 : localhost:3306~~
-- mysql 실행 : docker run --name db-mysql -p 3306:3306 -p 33060:33060 -e MYSQL_ROOT_PASSWORD="qordpsem!" -e MYSQL_DATABASE=calculator mysql
-  - -e 옵션으로 추가한설정들을 Dockerfile에서 설정한 새로운 이미지 도커허브에 추가. "ktchae/mysql"
-- app 빌드 && 도커 이미지 빌드 : ./gradlew clean build && docker build -t ktchae/calc:0.0.6 .
+- ~~mysql 실행 : docker run --name db-mysql -p 3306:3306 -p 33060:33060 -e MYSQL_ROOT_PASSWORD="qordpsem!" -e MYSQL_DATABASE=calculator mysql~~
+  - ~~-e 옵션으로 추가한설정들을 Dockerfile에서 설정한 새로운 이미지 도커허브에 추가. "ktchae/mysql"~~
+- app 빌드 && 도커 이미지 빌드 : ./gradlew clean build && docker build -t ktchae/calc:0.0.8 .
 - 도커 컨테이너 실행 : app01/port 8888, app02/port 8889
-  **url: jdbc:mysql://172.17.0.2:3306/**  이부분 컨테이너 이름으로 변경필요함 (--link 옵션으로 컨테이너 이름으로 접근됨..)
   - docker run --name app01 -p 8888:8080 **--link db-mysql:db-mysql-link** ktchae/test 로 실행시 아래와 같이 hosts 파일 생성된다!!
   - hosts 파일 추가 : 172.17.0.2      db-mysql-link f9c23c9ef1c0 db-mysql 
-- (로컬) nginx : 8888/8889 로드밸런싱 -> 도커에 올려봐야할듯
+- (로컬) nginx : 8888/8889 로드밸런싱 -> 도커에 올려봐야할듯 (**TODO**)
+- 실행순서 : mysql > was >  순서를 위해 wait-for-it 쉘 작성&적용필요 (http://docs.docker.com/compose/startup-order/)
 
 - ~~app01 실행 : docker run --name app01 -p 8888:8080 --network=host  ktchae/calc:0.0.5~~
 - ~~app02 실행 : docker run --name app02 -p 8889:8080 --network=host  ktchae/calc:0.0.5~~

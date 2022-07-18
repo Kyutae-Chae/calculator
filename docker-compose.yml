@@ -16,7 +16,7 @@ services:
       - db-mysql
     links:
       - db-mysql
-    image: "ktchae/calc:0.0.7"
+    image: "ktchae/calc:0.0.8"
     ports:
       - "8888:8080"
   app02:
@@ -25,17 +25,17 @@ services:
       - db-mysql
     links:
       - db-mysql
-    image: "ktchae/calc:0.0.7"
+    image: "ktchae/calc:0.0.8"
     ports:
       - "8889:8080"
-  nginx-test:
-    container_name: nginx-test
-    image: "ktchae/nginx:0.0.3"
-    ports:
-      - "80:80"
-    depends_on:
-      - app01
-      - app02
-    links:
-      - app01
-      - app02
+#  nginx-test:
+#    container_name: nginx-test
+#    image: "ktchae/nginx:0.0.3"
+#    ports:
+#      - "80:80"
+#    depends_on:
+#      - app01
+#      - app02
+#    links:
+#      - app01
+#      - app02
