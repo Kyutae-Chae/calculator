@@ -16,7 +16,9 @@ import project.calculator.service.LogService;
 import project.calculator.service.LoginService;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -57,11 +59,51 @@ public class LoginController {
         return "redirect:/";
     }
 
+    @GetMapping("/loginV2")
+    public String loginFormV2(@ModelAttribute("loginForm") LoginForm form) {
+        return "loginForm";
+    }
+
+    @PostMapping("/loginV2")
+    public String loginv2(@Valid @ModelAttribute LoginForm form,
+                          BindingResult bindingResult,
+                          HttpServletRequest request, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "loginForm";
+        }
+
+        Member loginMember = loginService.login(form.getLoginId(), form.getPassword());
+
+        if (loginMember == null) {
+            bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
+            return "loginForm";
+        }
+        log.info(loginMember.toString());
+
+        HttpSession httpSession = request.getSession();
+        httpSession.setAttribute("loginMember", loginMember);
+        httpSession.setMaxInactiveInterval(300); //300초
+
+        List<HistoryDto> historyDtos = mapper.HistoryEntityListToHistoryDtoList(historyService.findHistoryAll());
+        model.addAttribute("history", historyDtos);
+
+        return "redirect:/";
+    }
+
     @GetMapping("/logout")
     public String logout(HttpServletResponse response, Model model) {
         expireCookie(response, "memberId");
         List<HistoryDto> historyDtos = mapper.HistoryEntityListToHistoryDtoList(historyService.findHistoryAll());
         model.addAttribute("history", historyDtos);
+        return "redirect:/";
+    }
+
+    @GetMapping("/logoutV2")
+    public String logoutV2(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
         return "redirect:/";
     }
 

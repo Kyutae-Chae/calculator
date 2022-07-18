@@ -35,24 +35,28 @@ public class WebController {
 //        return "redirect:/calculate";
 //    }
     @GetMapping("/")
-    public String homeLogin(@CookieValue(name = "memberId", required = false) String memberId, Model model) {
+    public String homeLogin(
+//            @CookieValue(name = "memberId", required = false) String memberId,
+            @SessionAttribute(name = "loginMember", required = false) Member loginMember,
+            Model model) {
 
         List<HistoryDto> historyDtos = mapper.HistoryEntityListToHistoryDtoList(historyService.findHistoryAll());
         model.addAttribute("history", historyDtos);
-        model.addAttribute("member", new Member());
+//        model.addAttribute("member", new Member());
+        model.addAttribute("member", loginMember);
         model.addAttribute("formDto", new FormDto());
 
-        if (memberId == null) {
-            return "index";
-        }
-
-//로그인
-
-        Optional<Member> optionalMember = memberRepository.findByLoginId(memberId);
-        if (optionalMember.isEmpty()) {
-            return "index";
-        }
-        model.addAttribute("member", optionalMember.get());
+//        if (memberId == null) {
+//            return "index";
+//        }
+//
+////로그인
+//
+//        Optional<Member> optionalMember = memberRepository.findByLoginId(memberId);
+//        if (optionalMember.isEmpty()) {
+//            return "index";
+//        }
+//        model.addAttribute("member", optionalMember.get());
 
         return "index";
     }

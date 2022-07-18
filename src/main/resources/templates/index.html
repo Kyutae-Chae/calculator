@@ -21,13 +21,13 @@
         <div class="col">
             <button th:if="${member?.name == null}" class="w-100 btn btn-dark btn-lg"
                     onclick="location.href='items.html'"
-                    th:onclick="|location.href='@{/login}'|" type="button">
+                    th:onclick="|location.href='@{/loginV2}'|" type="button">
                 로그인
             </button>
 
             <button th:if="${member?.name != null}" class="w-100 btn btn-dark btn-lg"
                     onclick="location.href='items.html'"
-                    th:onclick="|location.href='@{/logout}'|" type="button">
+                    th:onclick="|location.href='@{/logoutV2}'|" type="button">
                 로그아웃
             </button>
         </div>
