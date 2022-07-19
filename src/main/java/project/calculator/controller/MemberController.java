@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import project.calculator.domain.member.Member;
 import project.calculator.repository.MemberRepository;
 import project.calculator.repository.MemoryMemberRepository;
+import project.calculator.service.MemberService;
 
 import javax.validation.Valid;
 
@@ -18,6 +19,7 @@ import javax.validation.Valid;
 @RequestMapping("/members")
 public class MemberController {
     private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     @GetMapping("/add")
     public String addForm(@ModelAttribute("member") Member member) {
@@ -30,7 +32,7 @@ public class MemberController {
             return "addMemberForm";
         }
 
-        memberRepository.save(member);
+        memberService.join(member);
         return "redirect:/";
     }
 }

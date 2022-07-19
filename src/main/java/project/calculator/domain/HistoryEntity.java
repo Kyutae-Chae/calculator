@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 public class HistoryEntity {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "history_id")
     private Long id;
 
