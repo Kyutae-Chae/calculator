@@ -23,10 +23,10 @@ services:
       - "8888:8080"
     networks:
       - test_network
-    environment:
-      - VIRTUAL_HOST=app01
-      - VIRTUAL_PORT=8888
-      - REMOTE_PORT=8080
+#    environment:
+#      - VIRTUAL_HOST=app01
+#      - VIRTUAL_PORT=8888
+#      - REMOTE_PORT=8080
   app02:
     container_name: app02
     depends_on:
@@ -38,10 +38,10 @@ services:
       - "8889:8080"
     networks:
       - test_network
-    environment:
-      - VIRTUAL_HOST=app01
-      - VIRTUAL_PORT=8888
-      - REMOTE_PORT=8080
+#    environment:
+#      - VIRTUAL_HOST=app02
+#      - VIRTUAL_PORT=8889
+#      - REMOTE_PORT=8080
   nginx:
     container_name: nginx
     depends_on:
@@ -50,7 +50,7 @@ services:
 #    links:
 #      - app01
 #      - app02
-    image: "ktchae/nginx:0.0.5"
+    image: "ktchae/nginx:0.0.6"
     ports:
       - "80:80"
     networks:
