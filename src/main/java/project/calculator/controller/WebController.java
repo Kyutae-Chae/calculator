@@ -10,10 +10,10 @@ import project.calculator.domain.HistoryDto;
 import project.calculator.domain.RequestDto;
 import project.calculator.domain.member.Member;
 import project.calculator.mapper.HistoryEntityMapper;
-import project.calculator.repository.MemberRepository;
 import project.calculator.service.CalculatorService;
 import project.calculator.service.HistoryService;
 import project.calculator.service.LogService;
+import project.calculator.service.MemberService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -25,9 +25,8 @@ import java.util.Optional;
 public class WebController {
     private final CalculatorService calculatorService;
     private final HistoryService historyService;
+    private final MemberService memberService;
     private final HistoryEntityMapper mapper;
-    private final MemberRepository memberRepository;
-
     private final LogService log;
 
 //    @GetMapping("/")
@@ -36,45 +35,16 @@ public class WebController {
 //    }
     @GetMapping("/")
     public String homeLogin(
-//            @CookieValue(name = "memberId", required = false) String memberId,
             @SessionAttribute(name = "loginMember", required = false) Member loginMember,
             Model model) {
 
         List<HistoryDto> historyDtos = mapper.HistoryEntityListToHistoryDtoList(historyService.findHistoryAll());
         model.addAttribute("history", historyDtos);
-//        model.addAttribute("member", new Member());
         model.addAttribute("member", loginMember);
         model.addAttribute("formDto", new FormDto());
 
-//        if (memberId == null) {
-//            return "index";
-//        }
-//
-////로그인
-//
-//        Optional<Member> optionalMember = memberRepository.findByLoginId(memberId);
-//        if (optionalMember.isEmpty()) {
-//            return "index";
-//        }
-//        model.addAttribute("member", optionalMember.get());
-
         return "index";
     }
-
-
-//    @GetMapping("/calculate")
-//    public String calculate(@CookieValue(name = "memberId", required = false) String memberId,
-//                            Model model) {
-//        model.addAttribute("formDto", new FormDto());
-//        List<HistoryDto> historyDtos = mapper.HistoryEntityListToHistoryDtoList(historyService.findHistoryAll());
-//        model.addAttribute("history", historyDtos);
-//        Optional<Member> optionalMember = memberRepository.findByLoginId(memberId);
-//        if (optionalMember.isEmpty()) {
-//            return "index";
-//        }
-//        model.addAttribute("member", optionalMember.get());
-//        return "index";
-//    }
 
     @PostMapping("/calculate")
     public String getResult(@CookieValue(name = "memberId", required = false) String memberId,
@@ -98,11 +68,11 @@ public class WebController {
         formDto.setResult(calculatorService.calculate(requestDto));
         model.addAttribute("formDto", formDto);
 
-        Optional<Member> optionalMember = memberRepository.findByLoginId(memberId);
+        List<Member> optionalMember = memberService.findMember(memberId);
         if (optionalMember.isEmpty()) {
             return "redirect:/";
         }
-        model.addAttribute("member", optionalMember.get());
+        model.addAttribute("member", optionalMember.get(0));
         return "redirect:/";
     }
 

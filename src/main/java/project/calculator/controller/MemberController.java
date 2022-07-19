@@ -18,7 +18,6 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RequestMapping("/members")
 public class MemberController {
-    private final MemberRepository memberRepository;
     private final MemberService memberService;
 
     @GetMapping("/add")
@@ -32,7 +31,8 @@ public class MemberController {
             return "addMemberForm";
         }
 
-        memberService.join(member);
+        if (memberService.join(member) == null)
+            return "addMemberForm";
         return "redirect:/";
     }
 }

@@ -15,7 +15,7 @@ public class LoginService {
      * @return null이면 로그인 실패
      */
     public Member login(String loginId, String password) {
-        Member member = memberRepository.findByLoginId(loginId)
+        Member member = memberRepository.findByLoginId(loginId).stream().findAny()
                 .filter(m -> m.getPassword().equals(password))
                 .orElse(null);
         return member;
